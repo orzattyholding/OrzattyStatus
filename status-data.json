@@ -1,0 +1,69 @@
+{
+  "monitors": [
+    {
+      "id": "global-edge",
+      "name": "OrzattyCDN Global Edge",
+      "description": "Core CDN infrastructure and routing (HTTP/3)",
+      "status": "",
+      "history": [
+        {
+          "timestamp": "2026-03-24T22:25:40.570Z",
+          "status": "operational",
+          "responseTime": 165
+        }
+      ]
+    },
+    {
+      "id": "wp-origin-proxy",
+      "name": "WordPress Origin Proxy",
+      "description": "/wp/ routing and ImageXR optimization",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T22:25:40.570Z",
+          "status": "outage",
+          "responseTime": 68
+        }
+      ]
+    },
+    {
+      "id": "modern-support",
+      "name": "Modern JS Delivery",
+      "description": "JSR & ESM+ module serving via esm.sh",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T22:25:40.570Z",
+          "status": "outage",
+          "responseTime": 34
+        }
+      ]
+    },
+    {
+      "id": "ai-indexing",
+      "name": "AI-Ready Indexing",
+      "description": "Native llm.txt generation for AI agents",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T22:25:40.570Z",
+          "status": "outage",
+          "responseTime": 62
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "name": "Orzatty API",
+      "description": "Management API and Dashboard endpoints",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T22:25:40.570Z",
+          "status": "outage",
+          "responseTime": 4
+        }
+      ]
+    }
+  ]
+}
