@@ -4,7 +4,7 @@
       "id": "global-edge",
       "name": "OrzattyCDN Global Edge",
       "description": "Core CDN infrastructure and routing (HTTP/3)",
-      "status": "operational",
+      "status": "",
       "history": [
         {
           "timestamp": "2026-03-24T22:25:40.570Z",
