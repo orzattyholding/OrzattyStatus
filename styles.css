@@ -1,0 +1,198 @@
+:root {
+    --bg-color: #0d1117;
+    --text-color: #c9d1d9;
+    --card-bg: #161b22;
+    --border-color: #30363d;
+    --accent-color: #58a6ff;
+    --success-color: #2ea043;
+    --warning-color: #d29922;
+    --error-color: #f85149;
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo h1 {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.2rem;
+}
+
+.logo p {
+    font-size: 0.9rem;
+    color: #8b949e;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    background-color: var(--card-bg);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.status-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.status-icon.operational {
+    background-color: var(--success-color);
+    box-shadow: 0 0 8px var(--success-color);
+}
+
+.status-icon.degraded {
+    background-color: var(--warning-color);
+    box-shadow: 0 0 8px var(--warning-color);
+}
+
+.status-icon.outage {
+    background-color: var(--error-color);
+    box-shadow: 0 0 8px var(--error-color);
+}
+
+.status-text {
+    font-weight: 600;
+}
+
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.service-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.service-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.service-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.service-description {
+    font-size: 0.85rem;
+    color: #8b949e;
+}
+
+.service-status {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.service-status .status-icon {
+    margin-right: 0.5rem;
+}
+
+.about {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.about h2 {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.about p {
+    color: #8b949e;
+    font-size: 0.95rem;
+}
+
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    color: #8b949e;
+    font-size: 0.85rem;
+}
+
+/* Loading skeleton */
+.skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: var(--border-color);
+    }
+    100% {
+        background-color: #484f58;
+    }
+}
+
+.skeleton-text {
+    width: 100%;
+    height: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .service-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
