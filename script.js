@@ -47,17 +47,64 @@ document.addEventListener('DOMContentLoaded', () => {
         services.forEach(service => {
             const config = statusConfig[service.status];
 
+            // Build history bars
+            const historyBlocks = 60; // Render 60 bars max
+            let historyHtml = '';
+
+            // Pad array with empty history if less than historyBlocks
+            let padding = [];
+            const actualHistoryLen = (service.history && service.history.length) ? service.history.length : 0;
+            if (actualHistoryLen < historyBlocks) {
+                for (let i = 0; i < (historyBlocks - actualHistoryLen); i++) {
+                    padding.push({ status: 'unknown' });
+                }
+            }
+
+            // Combine padding and actual history
+            const fullHistory = [...padding, ...(service.history || [])];
+
+            fullHistory.forEach((record, index) => {
+                let barClass = '';
+                let tooltipText = 'No data';
+                if (record.status === 'operational') {
+                    barClass = 'operational';
+                    tooltipText = `${new Date(record.timestamp).toLocaleString()} - Operational (${record.responseTime}ms)`;
+                } else if (record.status === 'outage') {
+                    barClass = 'outage';
+                    tooltipText = `${new Date(record.timestamp).toLocaleString()} - Outage (${record.responseTime}ms)`;
+                }
+
+                historyHtml += `
+                    <div class="history-bar ${barClass}">
+                        <span class="tooltip">${tooltipText}</span>
+                    </div>
+                `;
+            });
+
             const card = document.createElement('div');
             card.className = 'service-card';
+            card.style.flexDirection = 'column';
+            card.style.alignItems = 'stretch';
 
             card.innerHTML = `
-                <div class="service-info">
-                    <h3 class="service-name">${service.name}</h3>
-                    <p class="service-description">${service.description}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div class="service-info">
+                        <h3 class="service-name">${service.name}</h3>
+                        <p class="service-description">${service.description}</p>
+                    </div>
+                    <div class="service-status">
+                        <span class="status-icon ${config.iconClass}"></span>
+                        <span>${config.text}</span>
+                    </div>
                 </div>
-                <div class="service-status">
-                    <span class="status-icon ${config.iconClass}"></span>
-                    <span>${config.text}</span>
+                <div class="history-container">
+                    <div class="history-bars">
+                        ${historyHtml}
+                    </div>
+                    <div class="history-legend">
+                        <span>5 hours ago</span>
+                        <span>Now</span>
+                    </div>
                 </div>
             `;
 
@@ -88,6 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
             updateGlobalStatus('outage');
         }
     }
+
+    // Auto refresh every 60 seconds to simulate real-time updates from GitHub Pages
+    setInterval(loadMonitors, 60000);
 
     loadMonitors();
 });

@@ -4,31 +4,71 @@
       "id": "global-edge",
       "name": "OrzattyCDN Global Edge",
       "description": "Core CDN infrastructure and routing (HTTP/3)",
-      "status": "operational"
+      "url": "https://cdn.orzatty.com",
+      "status": "operational",
+      "history": [
+        {
+          "timestamp": "2026-03-24T20:00:45.385Z",
+          "status": "operational",
+          "responseTime": 265
+        }
+      ]
     },
     {
       "id": "wp-origin-proxy",
       "name": "WordPress Origin Proxy",
       "description": "/wp/ routing and ImageXR optimization",
-      "status": "operational"
+      "url": "https://wp.orzatty.com",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T20:00:45.385Z",
+          "status": "outage",
+          "responseTime": 43
+        }
+      ]
     },
     {
       "id": "modern-support",
       "name": "Modern JS Delivery",
       "description": "JSR & ESM+ module serving via esm.sh",
-      "status": "operational"
+      "url": "https://esm.orzatty.com",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T20:00:45.385Z",
+          "status": "outage",
+          "responseTime": 54
+        }
+      ]
     },
     {
       "id": "ai-indexing",
       "name": "AI-Ready Indexing",
       "description": "Native llm.txt generation for AI agents",
-      "status": "operational"
+      "url": "https://api.orzatty.com/llm.txt",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T20:00:45.385Z",
+          "status": "outage",
+          "responseTime": 36
+        }
+      ]
     },
     {
       "id": "api",
       "name": "Orzatty API",
       "description": "Management API and Dashboard endpoints",
-      "status": "operational"
+      "url": "https://api.orzatty.com/health",
+      "status": "outage",
+      "history": [
+        {
+          "timestamp": "2026-03-24T20:00:45.385Z",
+          "status": "outage",
+          "responseTime": 3
+        }
+      ]
     }
   ]
 }
