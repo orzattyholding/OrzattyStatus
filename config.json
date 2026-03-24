@@ -7,16 +7,16 @@
       "url": "https://cdn.orzatty.com"
     },
     {
-      "id": "wp-origin-proxy",
-      "name": "WordPress Origin Proxy",
-      "description": "/wp/ routing and ImageXR optimization",
-      "url": "https://wp.orzatty.com"
+      "id": "orzatty-pages",
+      "name": "Orzatty Page",
+      "description": "La web Oficial de Orzatty",
+      "url": "https://orzatty.com"
     },
     {
-      "id": "modern-support",
-      "name": "Modern JS Delivery",
-      "description": "JSR & ESM+ module serving via esm.sh",
-      "url": "https://esm.orzatty.com"
+      "id": "orzatty-foundation",
+      "name": "Orzatty Foundation",
+      "description": "Web de la Foundation",
+      "url": "https://orzatty.org"
     },
     {
       "id": "ai-indexing",
