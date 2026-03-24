@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Simulate network delay for effect
             await new Promise(resolve => setTimeout(resolve, 800));
 
-            const response = await fetch('monitors.json');
+            const response = await fetch('status-data.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

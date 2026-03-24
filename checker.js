@@ -2,7 +2,8 @@ const fs = require('fs');
 const https = require('https');
 const http = require('http');
 
-const MONITORS_FILE = './monitors.json';
+const CONFIG_FILE = './config.json';
+const STATUS_DATA_FILE = './status-data.json';
 const HISTORY_LIMIT = 60; // Keep last 60 checks (e.g., 5 hours at 5-min intervals)
 
 async function checkUrl(url) {
@@ -35,49 +36,75 @@ async function checkUrl(url) {
 async function runChecks() {
     console.log(`Starting checks at ${new Date().toISOString()}`);
 
-    let rawData;
+    let configData;
     try {
-        rawData = fs.readFileSync(MONITORS_FILE, 'utf8');
+        const rawConfig = fs.readFileSync(CONFIG_FILE, 'utf8');
+        configData = JSON.parse(rawConfig);
     } catch (err) {
-        console.error("Error reading monitors.json", err);
+        console.error("Error reading config.json", err);
         process.exit(1);
     }
 
-    const data = JSON.parse(rawData);
+    let statusData = { monitors: [] };
+    try {
+        if (fs.existsSync(STATUS_DATA_FILE)) {
+            const rawStatus = fs.readFileSync(STATUS_DATA_FILE, 'utf8');
+            statusData = JSON.parse(rawStatus);
+        }
+    } catch (err) {
+        console.log("No existing status-data.json found, creating a new one.");
+    }
+
     const timestamp = new Date().toISOString();
 
-    for (const monitor of data.monitors) {
-        if (!monitor.url) continue;
+    for (const configMonitor of configData.monitors) {
+        if (!configMonitor.url) continue;
 
-        console.log(`Checking ${monitor.name} (${monitor.url})...`);
-        const result = await checkUrl(monitor.url);
+        // Find or create the corresponding status monitor
+        let statusMonitor = statusData.monitors.find(m => m.id === configMonitor.id);
+        if (!statusMonitor) {
+            statusMonitor = {
+                id: configMonitor.id,
+                name: configMonitor.name,
+                description: configMonitor.description,
+                status: 'unknown',
+                history: []
+            };
+            statusData.monitors.push(statusMonitor);
+        }
+
+        // Always sync the name and description from the config
+        statusMonitor.name = configMonitor.name;
+        statusMonitor.description = configMonitor.description;
+
+        console.log(`Checking ${configMonitor.name} (${configMonitor.url})...`);
+        const result = await checkUrl(configMonitor.url);
 
         console.log(`Result: ${result.status} in ${result.responseTime}ms`);
 
         // Update current status
-        monitor.status = result.status;
-
-        // Ensure history array exists
-        if (!monitor.history) {
-            monitor.history = [];
-        }
+        statusMonitor.status = result.status;
 
         // Add new record
-        monitor.history.push({
+        statusMonitor.history.push({
             timestamp: timestamp,
             status: result.status,
             responseTime: result.responseTime
         });
 
         // Trim history to limit
-        if (monitor.history.length > HISTORY_LIMIT) {
-            monitor.history = monitor.history.slice(-HISTORY_LIMIT);
+        if (statusMonitor.history.length > HISTORY_LIMIT) {
+            statusMonitor.history = statusMonitor.history.slice(-HISTORY_LIMIT);
         }
     }
 
+    // Clean up any monitors that exist in statusData but were removed from configData
+    const configIds = configData.monitors.map(m => m.id);
+    statusData.monitors = statusData.monitors.filter(m => configIds.includes(m.id));
+
     // Save updated data
-    fs.writeFileSync(MONITORS_FILE, JSON.stringify(data, null, 2));
-    console.log('Finished checks and saved monitors.json');
+    fs.writeFileSync(STATUS_DATA_FILE, JSON.stringify(statusData, null, 2));
+    console.log('Finished checks and saved status-data.json');
 }
 
 runChecks();

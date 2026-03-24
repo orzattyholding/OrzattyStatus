@@ -1,0 +1,34 @@
+{
+  "monitors": [
+    {
+      "id": "global-edge",
+      "name": "OrzattyCDN Global Edge",
+      "description": "Core CDN infrastructure and routing (HTTP/3)",
+      "url": "https://cdn.orzatty.com"
+    },
+    {
+      "id": "wp-origin-proxy",
+      "name": "WordPress Origin Proxy",
+      "description": "/wp/ routing and ImageXR optimization",
+      "url": "https://wp.orzatty.com"
+    },
+    {
+      "id": "modern-support",
+      "name": "Modern JS Delivery",
+      "description": "JSR & ESM+ module serving via esm.sh",
+      "url": "https://esm.orzatty.com"
+    },
+    {
+      "id": "ai-indexing",
+      "name": "AI-Ready Indexing",
+      "description": "Native llm.txt generation for AI agents",
+      "url": "https://api.orzatty.com/llm.txt"
+    },
+    {
+      "id": "api",
+      "name": "Orzatty API",
+      "description": "Management API and Dashboard endpoints",
+      "url": "https://api.orzatty.com/health"
+    }
+  ]
+}
