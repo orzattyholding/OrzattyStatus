@@ -2,40 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const servicesContainer = document.getElementById('services-container');
     const globalStatusContainer = document.getElementById('global-status');
 
-    // Simulate real data fetching (in a real scenario, this would be an API call)
-    const mockServicesData = [
-        {
-            id: 'global-edge',
-            name: 'OrzattyCDN Global Edge',
-            description: 'Core CDN infrastructure and routing (HTTP/3)',
-            status: 'operational' // 'operational', 'degraded', 'outage'
-        },
-        {
-            id: 'wp-origin-proxy',
-            name: 'WordPress Origin Proxy',
-            description: '/wp/ routing and ImageXR optimization',
-            status: 'operational'
-        },
-        {
-            id: 'modern-support',
-            name: 'Modern JS Delivery',
-            description: 'JSR & ESM+ module serving via esm.sh',
-            status: 'operational'
-        },
-        {
-            id: 'ai-indexing',
-            name: 'AI-Ready Indexing',
-            description: 'Native llm.txt generation for AI agents',
-            status: 'operational'
-        },
-        {
-            id: 'api',
-            name: 'Orzatty API',
-            description: 'Management API and Dashboard endpoints',
-            status: 'operational'
-        }
-    ];
-
     // Status display configuration
     const statusConfig = {
         'operational': { text: 'Operational', class: 'operational', iconClass: 'operational' },
@@ -99,13 +65,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Simulate loading delay
-    renderSkeleton();
+    async function loadMonitors() {
+        renderSkeleton();
+        try {
+            // Simulate network delay for effect
+            await new Promise(resolve => setTimeout(resolve, 800));
 
-    setTimeout(() => {
-        renderServices(mockServicesData);
-        const globalStatus = calculateGlobalStatus(mockServicesData);
-        updateGlobalStatus(globalStatus);
-    }, 800);
+            const response = await fetch('monitors.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            const services = data.monitors || [];
 
+            renderServices(services);
+            const globalStatus = calculateGlobalStatus(services);
+            updateGlobalStatus(globalStatus);
+
+        } catch (error) {
+            console.error("Could not load monitors:", error);
+            servicesContainer.innerHTML = '<div class="service-card"><p>Error loading status data.</p></div>';
+            updateGlobalStatus('outage');
+        }
+    }
+
+    loadMonitors();
 });
